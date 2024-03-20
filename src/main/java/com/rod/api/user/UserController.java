@@ -31,33 +31,5 @@ public class UserController {
        return respMap;
     }
 
-    public Messenger join(Scanner sc) throws SQLException {
-        System.out.println("ID, 비번, 이름, 전화번호, 직업, 키, 몸무게를 순서대로 입력하세요.");
-        userService.save(User.builder()
-                .username(sc.next())
-                .password(sc.next())
-                .name(sc.next())
-                .phone(sc.next())
-                .job(sc.next())
-                .height(sc.next())
-                .weight(sc.next())
-                .build());
-        return Messenger.SUCCESS;
-    }
-
-    public Messenger createMemberTable() throws SQLException {
-        return userService.createMemberTable();
-    }
-
-    public String deleteMemberTable() throws SQLException {
-        return userService.deleteMemberTable();
-    }
-
-    public List<User> findAll() throws SQLException {
-        return userService.findAll();
-    }
-
-    public void foobar() {
-    }
 
 }
