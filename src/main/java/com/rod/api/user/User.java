@@ -1,16 +1,18 @@
 package com.rod.api.user;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity(name="users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
+@ToString(exclude = {"id"})
 public class User {
     @Id
     @Column(name="id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
     private String username;
     @Setter
