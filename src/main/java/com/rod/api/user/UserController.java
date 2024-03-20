@@ -56,4 +56,8 @@ public class UserController {
     public List<User> findAll() throws SQLException {
         return userService.findAll();
     }
+
+    public void foobar() {
+    }
+
 }
