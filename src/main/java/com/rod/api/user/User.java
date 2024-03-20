@@ -1,7 +1,7 @@
 package com.rod.api.user;
 
 import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlID;
+
 import lombok.*;
 
 @Entity(name="users")
@@ -15,6 +15,7 @@ public class User {
 
     private Long id;
     private String username;
+    @Setter
     private String password;
     private String name;
     private String phone;
@@ -33,8 +34,5 @@ public class User {
         this.weight = weight;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
 

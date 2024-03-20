@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HomeService {
     private final HomeRepository homeRepository;
+
+    //수정됨 - 시온
 }

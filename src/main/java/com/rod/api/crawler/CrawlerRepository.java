@@ -1,6 +1,7 @@
 package com.rod.api.crawler;
 
 import com.rod.api.common.AbstractRepository;
+import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,13 +13,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class CrawlerRepository extends AbstractRepository {
+    @Getter
     private static CrawlerRepository instance = new CrawlerRepository();
     private Map<String, ?> map;
     private CrawlerRepository(){
-        map = new HashMap();
-    }
-    public static CrawlerRepository getInstance(){
-        return instance;
+        map = new HashMap<>();
     }
 
     @Override
@@ -36,7 +35,7 @@ public class CrawlerRepository extends AbstractRepository {
         return map;
     }
 
-    public Map<String,?> saveMelon(Map<String, String> paramMap) throws IOException {
+    public Map<String,?> saveMelon() throws IOException {
         Document doc = Jsoup.connect("https://www.melon.com/chart/index.htm").timeout(10 * 1000).get();
         Elements elems = doc.select("tbody");
         Iterator<Element> title = elems.select("div.ellipsis.rank01 > span").iterator();

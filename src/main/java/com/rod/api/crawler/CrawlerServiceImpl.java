@@ -19,6 +19,6 @@ public class CrawlerServiceImpl implements CrawlerService {
 
     @Override
     public Map<String, ?> findNamesFromWebMelon(Map<String, String> paramMap) throws IOException {
-        return crawlerRepository.saveMelon(paramMap);
+        return crawlerRepository.saveMelon();
     }
 }
