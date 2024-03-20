@@ -15,28 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
-    @Override
-    public Messenger createMemberTable() throws SQLException {
-        return userRepository.createMemberTable();
-    }
 
-    @Override
-    public String deleteMemberTable() throws SQLException {
-        return userRepository.deleteMemberTable();
-    }
-
-
-
-    @Override
-    public Messenger save(User user) throws SQLException {
-        userRepository.save(user);
-        return Messenger.SUCCESS;
-    }
-
-    @Override
-    public List<User> findAll() throws SQLException {
-        return userRepository.findAll();
-    }
 
 
 }

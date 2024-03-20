@@ -1,13 +1,19 @@
 package com.rod.api.user;
 
+import jakarta.persistence.*;
 import lombok.*;
 
+@Entity(name="users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
 public class User {
+    @Id
+    @Column(name="id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
+    @Setter
     private String password;
     private String name;
     private String phone;
@@ -26,8 +32,5 @@ public class User {
         this.weight = weight;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
 

@@ -10,12 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
-    Messenger save(User user) throws SQLException;
 
-    List<User> findAll() throws SQLException;
-
-    Messenger createMemberTable() throws SQLException;
-
-    String deleteMemberTable() throws SQLException;
 
 }
