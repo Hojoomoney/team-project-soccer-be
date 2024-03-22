@@ -22,19 +22,26 @@ public class User {
     @Column
     private String password;
     @Column
+    private String email;
+    @Column
     private String name;
     @Column
     private String phone;
+    @Column
+    private String job;
+
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
 
     @Builder(builderMethodName = "builder")
-    public User(String username, String password, String name, String phone) {
+    public User(String username, String password,String email, String name, String phone, String job) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.name = name;
         this.phone = phone;
+        this.job = job;
     }
 
 }
