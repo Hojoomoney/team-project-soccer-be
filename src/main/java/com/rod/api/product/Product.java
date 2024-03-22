@@ -1,7 +1,10 @@
 package com.rod.api.product;
 
+import com.rod.api.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name="products")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -10,13 +13,19 @@ import lombok.*;
 
 public class Product {
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column
     private Integer pno;
+    @Column
     private String name;
+    @Column
     private String company;
+    @Column
     private Integer price;
+    @OneToMany(mappedBy = "product")
+    private List<Order> orders;
 
     @Builder(builderMethodName = "builder")
     public Product(int id, int pno, String name, String company, int price) {
