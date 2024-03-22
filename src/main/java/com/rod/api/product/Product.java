@@ -1,37 +1,29 @@
 package com.rod.api.product;
 
-import com.rod.api.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+@Entity(name="products")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
-@Entity(name = "products")
+
 public class Product {
     @Id
-    @Column(name = "product_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
-    private String pname;
-    @Column
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private Integer pno;
+    private String name;
+    private String company;
     private Integer price;
-    @Column
-    private Integer stock;
-    @Column
-    private String description;
 
-    @OneToMany(mappedBy = "product")
-    private List<Order> orders;
     @Builder(builderMethodName = "builder")
-    public Product(Long id, List<Order> orders, String pname, Integer price, Integer stock, String description) {
+    public Product(int id, int pno, String name, String company, int price) {
         this.id = id;
-        this.orders = orders;
-        this.pname = pname;
+        this.pno = pno;
+        this.name = name;
+        this.company = company;
         this.price = price;
-        this.stock = stock;
-        this.description = description;
     }
 }
