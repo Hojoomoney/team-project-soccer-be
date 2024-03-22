@@ -18,9 +18,9 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    @PostMapping("/login")
-    public Map<String, ?> username(@RequestBody Map<String, ?> map){
+    private final UserRepository userRepository;
+    @PostMapping("/api/login")
+    public Map<String, ?> username(@RequestBody Map<?, ?> map){
         String username = (String) map.get("username");
         String password = (String) map.get("password");
         System.out.println("리퀘스트가 가져온 이름 : " + username);
@@ -28,6 +28,22 @@ public class UserController {
         Map<String, String> respMap = new HashMap<>();
         respMap.put("username", username);
         respMap.put("password", password);
+        return respMap;
+    }
+
+    @PostMapping(path = "/api/users")
+    public Map<String, ?> join(@RequestBody Map<?, ?> map){
+        Map<String, Messenger> respMap = new HashMap<>();
+        User user = userRepository.save(User.builder()
+                .username((String) map.get("username"))
+                .password((String) map.get("password"))
+                .email((String) map.get("email"))
+                .name((String) map.get("name"))
+                .phone((String) map.get("phone"))
+                .job((String) map.get("job"))
+                .build());
+        System.out.println("DB 에 저장된 User 정보 : " + user);
+        respMap.put("result", Messenger.SUCCESS);
         return respMap;
     }
 
