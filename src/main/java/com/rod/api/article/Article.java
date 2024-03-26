@@ -5,7 +5,9 @@ import com.rod.api.board.Board;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name="article")
+import java.time.LocalDateTime;
+
+@Entity(name="articles")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
@@ -24,16 +26,19 @@ public class Article {
    @Column
    private String writer;
 
+   @Column
+   private LocalDateTime registerDate;
 
    @ManyToOne
    @JoinColumn(name = "board_id")
    private Board board;
 
    @Builder(builderMethodName = "builder")
-   public Article(Long id, String title, String content, String writer) {
+   public Article(Long id, String title, String content, String writer, LocalDateTime registerDate) {
       this.id = id;
       this.title = title;
       this.content = content;
       this.writer = writer;
+      this.registerDate = registerDate;
    }
 }
