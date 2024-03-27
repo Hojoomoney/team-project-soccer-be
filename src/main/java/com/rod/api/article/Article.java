@@ -34,8 +34,7 @@ public class Article {
    private Board board;
 
    @Builder(builderMethodName = "builder")
-   public Article(Long id, String title, String content, String writer, LocalDateTime registerDate) {
-      this.id = id;
+   public Article(String title, String content, String writer, LocalDateTime registerDate) {
       this.title = title;
       this.content = content;
       this.writer = writer;
