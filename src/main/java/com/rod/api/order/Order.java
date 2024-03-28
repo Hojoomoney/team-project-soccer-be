@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Getter
 @ToString(exclude = {"id"})
 @Entity
@@ -27,19 +29,7 @@ public class Order {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column
     private Integer orderAmount;
-
-    @Column
     private LocalDateTime orderDate;
-
-    @Builder(builderMethodName = "builder")
-    public Order(Long id, User user, Product product, Integer orderAmount, LocalDateTime orderDate) {
-        this.id = id;
-        this.user = user;
-        this.product = product;
-        this.orderAmount = orderAmount;
-        this.orderDate = orderDate;
-    }
 
 }
