@@ -21,7 +21,7 @@ public class Article {
    private Long id;
    private String title;
    private String content;
-   private LocalDateTime registerDate;
+   private String registerDate;
 
    @ManyToOne
    @JoinColumn(name = "board_id")
