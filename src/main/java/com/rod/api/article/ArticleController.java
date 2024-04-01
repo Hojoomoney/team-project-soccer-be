@@ -20,13 +20,18 @@ public class ArticleController {
     public Map<?,?> findAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("message", Messenger.SUCCESS);
-        List<Article> list = (List<Article>) articleService.findAll();
-        map.put("result", list);
+        //List<Article> list = (List<Article>) articleService.findAll();
+        map.put("result", List.of(Article.builder()
+                .id((1L))
+                .title("제목")
+                .content("내용")
+                .registerDate("240401")
+                .build()));
 //        map.put("result", Article.builder()
 //                        .id((1L))
 //                        .title("제목")
 //                        .content("내용")
-//                        .registerDate(LocalDateTime.now())
+//                        .registerDate("240401")
 //                        .build());
         return map;
     }

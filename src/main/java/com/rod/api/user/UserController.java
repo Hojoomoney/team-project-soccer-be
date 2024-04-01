@@ -3,10 +3,7 @@ package com.rod.api.user;
 import com.rod.api.enums.Messenger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.SQLException;
@@ -47,6 +44,22 @@ public class UserController {
                 .build());
         System.out.println("DB 에 저장된 User 정보 : " + user);
         respMap.put("message", Messenger.SUCCESS);
+        return respMap;
+    }
+
+    @GetMapping("/api/all-users")
+    public Map<String, ?> findAll(){
+        Map<String, Object> respMap = new HashMap<>();
+        respMap.put("message", Messenger.SUCCESS);
+        respMap.put("result", List.of(User.builder()
+                        .id(1L)
+                        .username("rlaghwn51")
+                        .password("1234")
+                        .email("rlaghwn51@naver.com")
+                        .name("김호주")
+                        .phone("010-1234-5678")
+                        .job("개발자")
+                        .build()));
         return respMap;
     }
 
