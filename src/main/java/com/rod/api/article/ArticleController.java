@@ -1,38 +1,54 @@
 package com.rod.api.article;
 
-import com.rod.api.enums.Messenger;
-import com.rod.api.user.UserRepository;
+import com.rod.api.article.service.ArticleService;
+import com.rod.api.common.component.MessengerVo;
+import com.rod.api.common.component.PageRequestVo;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+        @ApiResponse(responseCode = "404", description = "Customer not found")})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@RequestMapping(path = "/api/articles")
 @RequiredArgsConstructor
 public class ArticleController {
-    private final ArticleService articleService;
-    @GetMapping("/api/all-articles")
-    public Map<?,?> findAll() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", Messenger.SUCCESS);
-        //List<Article> list = (List<Article>) articleService.findAll();
-        map.put("result", List.of(Article.builder()
-                .id((1L))
-                .title("제목")
-                .content("내용")
-                .registerDate("240401")
-                .build()));
-//        map.put("result", Article.builder()
-//                        .id((1L))
-//                        .title("제목")
-//                        .content("내용")
-//                        .registerDate("240401")
-//                        .build());
-        return map;
+    private final ArticleService service;
+
+    @PostMapping(path = "")
+    public ResponseEntity<MessengerVo> save(PageRequestVo vo) throws SQLException {
+        service.save(null);
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<MessengerVo> deleteById(@PathVariable long id){
+        service.deleteById(0L);
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "")
+    public ResponseEntity<MessengerVo> findAll(PageRequestVo vo) throws SQLException {
+        service.findAll();
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<MessengerVo> findById(@PathVariable Long id){
+        service.findById(0L);
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "/count")
+    public ResponseEntity<MessengerVo> count(){
+        service.count();
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "/exists/{id}")
+    public ResponseEntity<MessengerVo> existById(@PathVariable long id){
+        service.existById(0L);
+        return ResponseEntity.ok(new MessengerVo());
     }
 }
