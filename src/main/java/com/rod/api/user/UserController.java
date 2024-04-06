@@ -1,66 +1,62 @@
 package com.rod.api.user;
 
-import com.rod.api.enums.Messenger;
+import com.rod.api.common.component.MessengerVo;
+import com.rod.api.user.model.UserDto;
+import com.rod.api.user.repository.UserRepository;
+import com.rod.api.user.service.UserService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.SQLException;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+        @ApiResponse(responseCode = "404", description = "Customer not found")})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "/api/users")
+@Slf4j
 public class UserController {
-    private final UserService userService;
-    private final UserRepository userRepository;
-    @PostMapping("/api/login")
-    public Map<String, ?> username(@RequestBody Map<?, ?> map){
-        Map<String, Messenger> respMap = new HashMap<>();
-        String username = (String) map.get("username");
-        String password = (String) map.get("password");
-        User optUser = userRepository.findByUsername(username).orElse(null);
-        if(optUser == null){
-            respMap.put("message", Messenger.FAIL);
-        } else if(!password.equals(optUser.getPassword())){
-            respMap.put("message", Messenger.WRONG_PASSWORD);
-        } else {
-            respMap.put("message", Messenger.SUCCESS);
-        }
-        return respMap;
-    }
+    private final UserService service;
+    private final UserRepository repository;
 
-    @PostMapping(path = "/api/users")
-    public Map<String, ?> join(@RequestBody Map<?, ?> map){
-        Map<String, Messenger> respMap = new HashMap<>();
-        User user = userRepository.save(User.builder()
-                .username((String) map.get("username"))
-                .password((String) map.get("password"))
-                .email((String) map.get("email"))
-                .name((String) map.get("name"))
-                .phone((String) map.get("phone"))
-                .job((String) map.get("job"))
+    @PostMapping(path = "")
+    public ResponseEntity<MessengerVo> save(@RequestBody UserDto user) throws SQLException {
+        log.info("Save-회원가입 정보 : " + user);
+        return ResponseEntity.ok(MessengerVo.builder()
+                .message(service.save(user).toString())
                 .build());
-        System.out.println("DB 에 저장된 User 정보 : " + user);
-        respMap.put("message", Messenger.SUCCESS);
-        return respMap;
     }
-
-    @GetMapping("/api/all-users")
-    public Map<String, ?> findAll(){
-        Map<String, Object> respMap = new HashMap<>();
-        respMap.put("message", Messenger.SUCCESS);
-        respMap.put("result", List.of(User.builder()
-                        .id(1L)
-                        .username("rlaghwn51")
-                        .password("1234")
-                        .email("rlaghwn51@naver.com")
-                        .name("김호주")
-                        .phone("010-1234-5678")
-                        .job("개발자")
-                        .build()));
-        return respMap;
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<MessengerVo> deleteById(@PathVariable long id){
+        service.deleteById(0L);
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "")
+    public ResponseEntity<List<UserDto>> findAll(Pageable pageable) throws SQLException {
+        return ResponseEntity.ok(service.findAll());
+    }
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<MessengerVo> findById(@PathVariable Long id){
+        service.findById(0L);
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "/count")
+    public ResponseEntity<MessengerVo> count(){
+        service.count();
+        return ResponseEntity.ok(new MessengerVo());
+    }
+    @GetMapping(path = "/exists/{id}")
+    public ResponseEntity<MessengerVo> existById(@PathVariable long id){
+        service.existById(0L);
+        return ResponseEntity.ok(new MessengerVo());
     }
 
 }
