@@ -1,6 +1,6 @@
 package com.rod.api.user;
 
-import com.rod.api.common.component.MessengerVo;
+import com.rod.api.common.component.Messenger;
 import com.rod.api.user.model.UserDto;
 import com.rod.api.user.repository.UserRepository;
 import com.rod.api.user.service.UserService;
@@ -27,36 +27,61 @@ public class UserController {
     private final UserService service;
     private final UserRepository repository;
 
-    @PostMapping(path = "")
-    public ResponseEntity<MessengerVo> save(@RequestBody UserDto user) throws SQLException {
-        log.info("Save-회원가입 정보 : " + user);
-        return ResponseEntity.ok(MessengerVo.builder()
-                .message(service.save(user).toString())
-                .build());
+    @PostMapping( "/save")
+    public ResponseEntity<Messenger> save(@RequestBody UserDto dto) throws SQLException {
+        log.info("입력받은 정보 : {}", dto );
+        return ResponseEntity.ok(service.save(dto));
+
     }
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<MessengerVo> deleteById(@PathVariable long id){
-        service.deleteById(0L);
-        return ResponseEntity.ok(new MessengerVo());
-    }
-    @GetMapping(path = "")
-    public ResponseEntity<List<UserDto>> findAll(Pageable pageable) throws SQLException {
+
+
+    @GetMapping("/list")
+    public ResponseEntity<List<UserDto>> findAll() throws SQLException {
+        log.info("입력받은 정보 : {}" );
         return ResponseEntity.ok(service.findAll());
     }
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<MessengerVo> findById(@PathVariable Long id){
-        service.findById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+
+    @GetMapping("/detail")
+    public ResponseEntity<Optional<UserDto>> findById(@RequestParam Long id) {
+        log.info("입력받은 정보 : {}", id );
+        return ResponseEntity.ok(service.findById(id));
     }
-    @GetMapping(path = "/count")
-    public ResponseEntity<MessengerVo> count(){
-        service.count();
-        return ResponseEntity.ok(new MessengerVo());
+
+
+
+    @PutMapping("/modify")
+    public ResponseEntity<Messenger> modify(@RequestBody UserDto param) {
+        log.info("입력받은 정보 : {}", param );
+        return ResponseEntity.ok(service.modify(param));
+    }
+
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
+        log.info("입력받은 정보 : {}", id );
+        return ResponseEntity.ok(service.deleteById(id));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> count() {
+        return ResponseEntity.ok(service.count());
+
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<UserDto>> findUsersByName(@RequestBody UserDto param) {
+        //log.info("입력받은 정보 : {}", name );
+        return ResponseEntity.ok(service.findUsersByName(param.getName()));
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<Messenger> login(@RequestBody UserDto param) {
+        log.info("입력받은 정보 : {}", param );
+        return ResponseEntity.ok(service.login(param));
     }
     @GetMapping(path = "/exists/{id}")
-    public ResponseEntity<MessengerVo> existById(@PathVariable long id){
-        service.existById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+    public ResponseEntity<Boolean> existById(@PathVariable Long id){
+        return ResponseEntity.ok(service.existById(id));
     }
 
 }

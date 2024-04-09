@@ -2,6 +2,7 @@ package com.rod.api.board.service;
 
 import com.rod.api.board.model.BoardDto;
 import com.rod.api.board.repository.BoardRepository;
+import com.rod.api.common.component.Messenger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +18,31 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public BoardDto save(BoardDto t) throws SQLException {
-        return entityToDto(Optional.of(repository.save(dtoToEntity(t))));
+    public Messenger save(BoardDto t) throws SQLException {
+        repository.save(dtoToEntity(t));
+        return new Messenger();
     }
 
     @Override
-    public void deleteById(Long id) {
+    public Messenger deleteById(Long id) {
         repository.deleteById(id);
+        return new Messenger();
     }
 
     @Override
-    public List<BoardDto> findAll() throws SQLException {
-        //return repository.findAll(vo);
+    public Messenger modify(BoardDto boardDto) {
         return null;
     }
 
     @Override
+    public List<BoardDto> findAll() throws SQLException {
+        return repository.findAll().stream().map(this::entityToDto).toList();
+    }
+
+    @Override
     public Optional<BoardDto> findById(Long id) {
-        return Optional.of(entityToDto(repository.findById(id)));
+//        return Optional.of(entityToDto(repository.findById(id)));
+        return null;
     }
 
     @Override

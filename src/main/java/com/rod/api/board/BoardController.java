@@ -1,7 +1,8 @@
 package com.rod.api.board;
 
+import com.rod.api.board.model.BoardDto;
 import com.rod.api.board.service.BoardService;
-import com.rod.api.common.component.MessengerVo;
+import com.rod.api.common.component.Messenger;
 import com.rod.api.common.component.PageRequestVo;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -20,34 +22,32 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService service;
-    @PostMapping(path = "")
-    public ResponseEntity<MessengerVo> save(PageRequestVo vo) throws SQLException {
-        service.save(null);
-        return ResponseEntity.ok(new MessengerVo());
+    @PostMapping(path = "/save")
+    public ResponseEntity<Messenger> save(BoardDto dto) throws SQLException {
+        return ResponseEntity.ok(service.save(dto));
     }
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<MessengerVo> deleteById(@PathVariable long id){
+    public ResponseEntity<Messenger> deleteById(@PathVariable long id){
         service.deleteById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+        return ResponseEntity.ok(new Messenger());
     }
-    @GetMapping(path = "")
-    public ResponseEntity<MessengerVo> findAll(PageRequestVo vo) throws SQLException {
-        service.findAll();
-        return ResponseEntity.ok(new MessengerVo());
+    @GetMapping(path = "/list")
+    public ResponseEntity<List<BoardDto>> findAll() throws SQLException {
+        return ResponseEntity.ok(service.findAll());
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<MessengerVo> findById(@PathVariable Long id){
+    public ResponseEntity<Messenger> findById(@PathVariable Long id){
         service.findById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+        return ResponseEntity.ok(new Messenger());
     }
     @GetMapping(path = "/count")
-    public ResponseEntity<MessengerVo> count(){
+    public ResponseEntity<Messenger> count(){
         service.count();
-        return ResponseEntity.ok(new MessengerVo());
+        return ResponseEntity.ok(new Messenger());
     }
     @GetMapping(path = "/exists/{id}")
-    public ResponseEntity<MessengerVo> existById(@PathVariable long id){
+    public ResponseEntity<Messenger> existById(@PathVariable long id){
         service.existById(0L);
-        return ResponseEntity.ok(new MessengerVo());
+        return ResponseEntity.ok(new Messenger());
     }
 }

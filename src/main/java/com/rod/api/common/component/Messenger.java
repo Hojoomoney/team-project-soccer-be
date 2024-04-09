@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MessengerVo {
+public class Messenger {
     private String message;
     private int status;
     private String code;
