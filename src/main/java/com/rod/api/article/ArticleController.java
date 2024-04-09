@@ -3,7 +3,6 @@ package com.rod.api.article;
 import com.rod.api.article.model.ArticleDto;
 import com.rod.api.article.service.ArticleService;
 import com.rod.api.common.component.Messenger;
-import com.rod.api.common.component.PageRequestVo;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
