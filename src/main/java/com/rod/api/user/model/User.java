@@ -20,10 +20,13 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @Setter
     private String password;
     private String email;
     private String name;
+    @Setter
     private String phone;
+    @Setter
     private String job;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)

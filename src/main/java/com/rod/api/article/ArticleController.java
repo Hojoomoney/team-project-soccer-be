@@ -53,4 +53,9 @@ public class ArticleController {
     public ResponseEntity<Boolean> existById(@PathVariable Long id){
         return ResponseEntity.ok(service.existById(id));
     }
+    @PutMapping("/modify")
+    public ResponseEntity<Messenger> modify(@RequestBody ArticleDto articleDto) {
+        log.info("입력받은 정보 : {}", articleDto );
+        return ResponseEntity.ok(service.modify(articleDto));
+    }
 }

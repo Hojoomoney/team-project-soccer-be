@@ -1,5 +1,6 @@
 package com.rod.api.article.service;
 
+import com.rod.api.article.model.Article;
 import com.rod.api.article.model.ArticleDto;
 import com.rod.api.article.repository.ArticleRepository;
 import com.rod.api.common.component.Messenger;
@@ -29,7 +30,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Messenger modify(ArticleDto articleDto) {
-        throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+        Article article = repository.findById(articleDto.getId()).orElseThrow(null);
+        article.setTitle(articleDto.getTitle());
+        article.setContent(articleDto.getContent());
+        repository.save(article);
+        return new Messenger();
     }
 
     @Override

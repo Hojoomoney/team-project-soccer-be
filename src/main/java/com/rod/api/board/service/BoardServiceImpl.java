@@ -1,5 +1,6 @@
 package com.rod.api.board.service;
 
+import com.rod.api.board.model.Board;
 import com.rod.api.board.model.BoardDto;
 import com.rod.api.board.repository.BoardRepository;
 import com.rod.api.common.component.Messenger;
@@ -31,7 +32,11 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Messenger modify(BoardDto boardDto) {
-        return null;
+        Board board = repository.findById(boardDto.getId()).orElseThrow(null);
+        board.setBoardName(boardDto.getBoardName());
+        board.setBoardType(boardDto.getBoardType());
+        repository.save(board);
+        return new Messenger();
     }
 
     @Override
