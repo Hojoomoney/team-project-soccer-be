@@ -52,4 +52,10 @@ public class BoardController {
         service.existById(0L);
         return ResponseEntity.ok(new Messenger());
     }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Messenger> modify(@RequestBody BoardDto boardDto) {
+        log.info("입력받은 정보 : {}", boardDto );
+        return ResponseEntity.ok(service.modify(boardDto));
+    }
 }
