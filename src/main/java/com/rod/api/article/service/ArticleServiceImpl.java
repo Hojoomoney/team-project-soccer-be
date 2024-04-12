@@ -19,13 +19,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Messenger save(ArticleDto t) throws SQLException {
         entityToDto(repository.save(dtoToEntity(t)));
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(t.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
     public Messenger deleteById(Long id) {
         repository.deleteById(id);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(id) ? "FAILURE" : "SUCCESS")
+                .build();
     }
 
     @Override
@@ -34,7 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
         repository.save(article);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(article.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
