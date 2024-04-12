@@ -20,13 +20,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Messenger save(UserDto t) throws SQLException {
         entityToDto((repository.save(dtoToEntity(t))));
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(t.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
     public Messenger deleteById(Long id) {
         repository.deleteById(id);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(id) ? "FAILURE" : "SUCCESS")
+                .build();
     }
 
     @Override
@@ -56,7 +60,9 @@ public class UserServiceImpl implements UserService {
         user.setPhone(userDto.getPhone());
         user.setJob(userDto.getJob());
         repository.save(user);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(user.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override

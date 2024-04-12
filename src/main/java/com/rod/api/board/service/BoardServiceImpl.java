@@ -21,13 +21,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Messenger save(BoardDto t) throws SQLException {
         repository.save(dtoToEntity(t));
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(t.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
     public Messenger deleteById(Long id) {
         repository.deleteById(id);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(id) ? "FAILURE" : "SUCCESS")
+                .build();
     }
 
     @Override
@@ -36,7 +40,9 @@ public class BoardServiceImpl implements BoardService {
         board.setBoardName(boardDto.getBoardName());
         board.setBoardType(boardDto.getBoardType());
         repository.save(board);
-        return new Messenger();
+        return Messenger.builder()
+                .message(repository.existsById(board.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
